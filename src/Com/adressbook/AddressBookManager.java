@@ -11,7 +11,7 @@ public class AddressBookManager
 	Scanner in=new Scanner(System.in);
 	private static Formatter x;
 	private static Scanner y;
-	private static String choice;
+	private static String choice, name;
 	 
 	
 	
@@ -34,7 +34,7 @@ public class AddressBookManager
 //			{
 //				System.out.println("file not created");
 //			}
-			System.out.println("file created"+name);
+			System.out.println("\nfile created"+name);
 			MainClass.displayMenu();
 	 }
 	
@@ -66,7 +66,7 @@ public class AddressBookManager
 //			 String phoneNumber=y.next();
 //			 System.out.printf("\n%s  %s  %s",firstName,lastName,phoneNumber);
 //		 }
-//		 System.out.println("ok222");
+//		 System.out.println("ok");
 //		 y.close();
 //		 mainMenu();
 //	 }
@@ -113,22 +113,23 @@ public class AddressBookManager
 		 long mNumber=in.nextLong();
 		 person.setPhoneNumber(mNumber);
 		 System.out.println("enter city name");
-		 String city=in.next();
-		 person.setCity(city);
+		 String ncity=in.next();
+		 person.setCity(ncity);
+		 System.out.println(person.getCity());
 		 System.out.println("enter state name");
 		 String state=in.next();
 		 person.setState(state);
 		 System.out.println("enter Zip");
 		 int zip=in.nextInt();
 		 person.setZip(zip);
-		 System.out.println(person.getFirstName());
+		 System.out.println(person.getCity());
 		 System.out.println("what is name of file to add ");
 		 String fileDir=in.next();
 		 try {
 			FileWriter fw= new FileWriter(fileDir,true);
 			BufferedWriter bw=new BufferedWriter(fw);
 			PrintWriter pw=new PrintWriter(bw);
-			 pw.println(person.getFirstName()+","+person.getLastName()+","+person.getPhoneNumber()+","+add.getCity()+","+person.getState()+","+person.getZip());
+			 pw.println(person.getFirstName()+","+person.getLastName()+","+person.getPhoneNumber()+","+person.getCity()+","+person.getState()+","+person.getZip());
 			 pw.flush();
 			 pw.close();
 //			 JOptionPane.showMessageDialog(null,"data saved");
@@ -139,9 +140,40 @@ public class AddressBookManager
 			System.out.println("File not found");
 		}
 	 }
-	 public void saveAs()
+	 public void find(String searchWord,String searchFile)
 	 {
+		 boolean found =false;
 		 
+		 String firstName=""; String lastName=""; String mobNo=""; String city=""; String state=""; String zip="";
+		
+		 try 
+		 {
+			 y=new Scanner(new File(searchFile));
+			 y.useDelimiter("[,\n]");
+			 while(y.hasNext() && found==false)
+			 {
+				firstName=y.next();
+				System.out.println(firstName);
+				lastName=y.next();
+				mobNo=y.next();
+				city=y.next(); 
+				state=y.next();
+				zip=y.next();
+				if(mobNo.equals(searchWord))
+					{
+						found=true;
+						System.out.println(firstName+","+lastName+","+mobNo+","+city+","+state+","+zip);
+					}
+				else
+					{
+						System.out.println("error");
+					}
+			 }
+		 }
+		 catch(Exception E)
+		 {
+			 System.out.println("Error");
+		 }
 	 }
 	 public void save()
 	 {
@@ -159,7 +191,7 @@ public class AddressBookManager
 	 {
 		 
 	 }
-	 public void Trackrecorf()
+	 public void Trackrecord()
 	 {
 		 
 	 }

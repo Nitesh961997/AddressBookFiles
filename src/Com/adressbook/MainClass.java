@@ -69,7 +69,13 @@ public class MainClass {
 				abm.addNew();
 			break;
 			case 4:
+				String searchWord; 
 				System.out.println("find");
+				System.out.println("name the file u want to search in");
+				String searchFile=in.next();
+				System.out.println("enter the word to search");
+				searchWord=in.next();
+				abm.find(searchWord,searchFile);
 			break;
 			case 5:
 				System.out.println("select the file to save");
