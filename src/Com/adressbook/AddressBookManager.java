@@ -153,7 +153,6 @@ public class AddressBookManager
 			 while(y.hasNext() && found==false)
 			 {
 				firstName=y.next();
-				System.out.println(firstName);
 				lastName=y.next();
 				mobNo=y.next();
 				city=y.next(); 
@@ -175,17 +174,104 @@ public class AddressBookManager
 			 System.out.println("Error");
 		 }
 	 }
-	 public void save()
+	 
+	 
+	 //delete data
+	 public void delete(String fileName,String number)
 	 {
+		 String tempFile="temp.csv";
+//		 File oldFile=new File(fileName);
+//		 File newFile=new File(tempFile);
+		 String firstName=""; String lastName=""; String mobNo=""; String city=""; String state=""; String zip="";
+		 try
+		 {
+			 FileWriter fw=new FileWriter(tempFile,true);
+			 BufferedWriter bw=new BufferedWriter(fw);
+			 //PrintWriter pw=new PrintWriter(bw);
+			 y=new Scanner(new File (fileName));
+			 y.useDelimiter("[,\n]");
+			 
+			 while(y.hasNext())
+			 {
+				firstName=y.next();
+				lastName=y.next();
+				mobNo=y.next();
+				System.out.println(mobNo);
+				city=y.next(); 
+				state=y.next();
+				zip=y.next();
+				if(mobNo.equals(number))
+				{
+					System.out.println("deleted row with mobile no"+number);
+				}
+				else
+				{
+					bw.write(firstName+","+lastName+","+mobNo+","+city+","+state+","+zip);
+				}
+			 }
+			 	y.close();
+			 	//fw.flush();
+			 	bw.flush();
+				bw.close();
+				fw.close();
+				AddressBookManager abm=new AddressBookManager();
+				//abm.fileDeleter(fileName);
+				abm.rename(fileName,tempFile);
+				
+//				File oldName = new File(fileName);
+//				File newName = new File(tempFile);
+//				oldName.renameTo(newName);
+//				if (oldName.renameTo(newName))  
+//		            System.out.println("Renamed successfully");         
+//		        else 
+//		            System.out.println("Error");
+//				oldFile.delete();
+//				File dump=new File(fileName);
+//				newFile.renameTo(dump);
+//				System.out.println("9");
+		 }
+		 catch(Exception e)
+		 {
+			 System.out.println("Error");
+			 e.printStackTrace();
+		 }
+		 AddressBookManager abm=new AddressBookManager();
 		 
+//			  File myObj = new File(fileName); 
+//			  System.out.println(myObj);
+//			  if (myObj.delete()) { 
+//		      System.out.println("Deleted the file: " + myObj.getName());
+//		    } else {
+//		      System.out.println("Failed to delete the file.");
+//		    }
+//		      	File oldName = new File(fileName);
+//				File newName = new File(tempFile);
+//				//newName.renameTo(oldName);
+//				if (newName.renameTo(oldName))  
+//		            System.out.println("Renamed successfully");         
+//		        else 
+//		            System.out.println("Error");
 	 }
-	 public void edit()
-	 {
 		 
+	 public void fileDeleter(String fileDelete)
+	 {
+		 File myObj = new File(fileDelete); 
+		  System.out.println(myObj);
+		  if (myObj.delete()) { 
+	      System.out.println("Deleted the file: " + myObj.getName());
+	    } else {
+	      System.out.println("Failed to delete the file.");
+	    } 
+		  MainClass.displayMenu();
 	 }
-	 public void remove()
+	 public void rename(String renameFile,String renameName)
 	 {
-		 
+		 File oldName = new File(renameFile);
+			File newName = new File(renameName);
+			if (oldName.renameTo(newName))  
+	            System.out.println("Renamed successfully");         
+	        else 
+	            System.out.println("Error");
 	 }
 	 public void singleAdressBookOpenAtATime()
 	 {

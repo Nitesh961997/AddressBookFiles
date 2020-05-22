@@ -36,8 +36,9 @@ public class MainClass {
 		System.out.println("2.open");
 		System.out.println("3.add");
 		System.out.println("4.find");
-		System.out.println("5.saveAs");
-		System.out.println("6.remove");
+		System.out.println("5.remove address");
+		System.out.println("6.delete address Book");
+		System.out.println("7.rename file");
 		int choice=in.nextInt();
 		in.nextLine();
 		AddressBookManager abm=new AddressBookManager();
@@ -64,7 +65,7 @@ public class MainClass {
 				abm.readFile(name);
 				//abm.closeFile(name);
 			break;
-		//edit file	
+		//add address	
 			case 3:
 				abm.addNew();
 			break;
@@ -77,14 +78,30 @@ public class MainClass {
 				searchWord=in.next();
 				abm.find(searchWord,searchFile);
 			break;
+		//deleteaddress
 			case 5:
-				System.out.println("select the file to save");
+				System.out.println("delete content in file?");
+				String fileName=in.next();
+				System.out.println("enter the mobile No of person You want to delete");
+				String number=in.next();
+			abm.delete(fileName,number);
+				
 			break;
+		//delete file	
 			case 6:
+				
 				System.out.println("Select the file you want to remove");
+				String fileDelete=in.next();
+				abm.fileDeleter(fileDelete);
 			break;
 			default:
 				System.out.println("invalid");
+			case 7:
+				System.out.println("Enter the file To rename");
+				String renameFile=in.next();
+				System.out.println("New name of the file");
+				String renameName=in.next();
+				abm.rename(renameFile,renameName);
 			break;
 				
 		}
