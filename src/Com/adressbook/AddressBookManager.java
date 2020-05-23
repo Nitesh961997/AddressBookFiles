@@ -12,6 +12,7 @@ public class AddressBookManager
 	private static Formatter x;
 	private static Scanner y;
 	private static String choice, name;
+	ArrayList<Person> addressbook=new ArrayList<Person>();
 	 
 	
 	
@@ -88,11 +89,12 @@ public class AddressBookManager
 					System.out.println(data);
 				}
 				System.out.println("=============================");
-				inputStream.close();
+				try{if(inputStream!=null)inputStream.close();} catch(Exception e) {}
 			} catch (Exception e) 
-			{}
+			{
+				
+			}
 			mainMenu();
-				// TODO: handle exception
 	 }
 	 
 	 
@@ -101,8 +103,9 @@ public class AddressBookManager
 	 //add New Data
 	 public void addNew()
 	 {
+		 
 		 Person person=new Person();
-		 Address add=new Address();
+		 //Address add=new Address();
 		 System.out.println("enter first name");
 		 String fName=in.nextLine();
 		 person.setFirstName(fName);
@@ -122,19 +125,20 @@ public class AddressBookManager
 		 System.out.println("enter Zip");
 		 int zip=in.nextInt();
 		 person.setZip(zip);
-		 System.out.println(person.getCity());
+		 addressbook.add(person);
 		 System.out.println("what is name of file to add ");
 		 String fileDir=in.next();
 		 try {
+			
 			FileWriter fw= new FileWriter(fileDir,true);
 			BufferedWriter bw=new BufferedWriter(fw);
 			PrintWriter pw=new PrintWriter(bw);
-			 pw.println(person.getFirstName()+","+person.getLastName()+","+person.getPhoneNumber()+","+person.getCity()+","+person.getState()+","+person.getZip());
-			 pw.flush();
-			 pw.close();
-//			 JOptionPane.showMessageDialog(null,"data saved");
-			 System.out.println("data saved");
-			 MainClass.displayMenu();
+			pw.println(person.getFirstName()+","+person.getLastName()+","+person.getPhoneNumber()+","+person.getCity()+","+person.getState()+","+person.getZip());
+			pw.flush();
+			pw.close();
+//			JOptionPane.showMessageDialog(null,"data saved");
+			System.out.println("data saved");
+			MainClass.displayMenu();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			System.out.println("File not found");
@@ -185,7 +189,7 @@ public class AddressBookManager
 		 String firstName=""; String lastName=""; String mobNo=""; String city=""; String state=""; String zip="";
 		 try
 		 {
-			 FileWriter fw=new FileWriter(tempFile,true);
+			 FileWriter fw=new FileWriter(tempFile,false);
 			 BufferedWriter bw=new BufferedWriter(fw);
 			 //PrintWriter pw=new PrintWriter(bw);
 			 y=new Scanner(new File (fileName));
@@ -214,9 +218,8 @@ public class AddressBookManager
 			 	bw.flush();
 				bw.close();
 				fw.close();
-				AddressBookManager abm=new AddressBookManager();
-				//abm.fileDeleter(fileName);
-				abm.rename(fileName,tempFile);
+//				abm.fileDeleter(fileName);
+//				abm.rename(fileName,tempFile);
 				
 //				File oldName = new File(fileName);
 //				File newName = new File(tempFile);
@@ -262,10 +265,11 @@ public class AddressBookManager
 	    } else {
 	      System.out.println("Failed to delete the file.");
 	    } 
-		  MainClass.displayMenu();
+		  //MainClass.displayMenu();
 	 }
 	 public void rename(String renameFile,String renameName)
 	 {
+		 System.out.println("1.1");
 		 File oldName = new File(renameFile);
 			File newName = new File(renameName);
 			if (oldName.renameTo(newName))  
@@ -273,8 +277,73 @@ public class AddressBookManager
 	        else 
 	            System.out.println("Error");
 	 }
-	 public void singleAdressBookOpenAtATime()
+	 public void edit(String editNo,String editFile)
 	 {
+		 String tempFile="temp.txt";
+		 File oldFile=new File(editFile);
+		 File newFile=new File(tempFile);
+		 String firstName=""; String lastName=""; String mobNo=""; String city=""; String state=""; String zip="";
+			 
+		 	 Person person=new Person();
+			 Address add=new Address();
+			 System.out.println("enter first name");
+			 String fName=in.nextLine();
+//			 person.setFirstName(fName);
+//			 System.out.println("enter last name");
+//			 String lName=in.nextLine();
+//			 person.setLastName(lName);
+//			 System.out.println("enter mobile No");
+//			 long mNumber=in.nextLong();
+//			 person.setPhoneNumber(mNumber);
+//			 System.out.println("enter city name");
+//			 String ncity=in.next();
+//			 person.setCity(ncity);
+//			 System.out.println("enter state name");
+//			 String nstate=in.next();
+//			 person.setState(nstate);
+//			 System.out.println("enter Zip");
+//			 int nzip=in.nextInt();
+//			 person.setZip(nzip);
+			 
+			 
+		try 
+		{	 
+			System.out.println("1");
+			FileWriter fw=new FileWriter(tempFile,false);
+			 BufferedWriter bw=new BufferedWriter(fw);
+			 y=new Scanner(new File(editFile));
+			 y.useDelimiter("[,\n]");
+			 System.out.println("2");
+			 while(y.hasNext())
+			 {
+				firstName=y.next();
+				lastName=y.next();
+				mobNo=y.next();
+				System.out.println(mobNo);
+				city=y.next(); 
+				state=y.next();
+				zip=y.next();
+				if(mobNo.equals(editNo))
+				{
+					bw.write(person.getFirstName()+","+person.getLastName()+","+person.getPhoneNumber()+","+person.getCity()+","+person.getState()+","+person.getZip());
+				}
+				else
+				{
+					bw.write(firstName+","+lastName+","+mobNo+","+city+","+state+","+zip);
+				}
+			 }
+			 y.close();
+			 bw.flush();
+			 bw.close();
+			 oldFile.delete();
+			 File dump=new File(editFile);
+			 newFile.renameTo(dump);
+			 
+		}
+		catch(Exception e)
+		{
+			 e.printStackTrace(); 
+		}
 		 
 	 }
 	 public void Trackrecord()

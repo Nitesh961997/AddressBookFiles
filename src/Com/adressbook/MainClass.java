@@ -30,7 +30,7 @@ public class MainClass {
 	{
 		String name;
 		Scanner in=new Scanner(System.in);
-		
+		MainClass mc=new MainClass();
 		System.out.println("What would you like to do" );
 		System.out.println("1.new");
 		System.out.println("2.open");
@@ -39,6 +39,7 @@ public class MainClass {
 		System.out.println("5.remove address");
 		System.out.println("6.delete address Book");
 		System.out.println("7.rename file");
+		System.out.println("8.edit file");
 		int choice=in.nextInt();
 		in.nextLine();
 		AddressBookManager abm=new AddressBookManager();
@@ -84,7 +85,9 @@ public class MainClass {
 				String fileName=in.next();
 				System.out.println("enter the mobile No of person You want to delete");
 				String number=in.next();
-			abm.delete(fileName,number);
+				abm.delete(fileName,number);
+				abm.fileDeleter(fileName);
+				abm.rename("temp.csv",fileName);
 				
 			break;
 		//delete file	
@@ -93,6 +96,7 @@ public class MainClass {
 				System.out.println("Select the file you want to remove");
 				String fileDelete=in.next();
 				abm.fileDeleter(fileDelete);
+				mc.displayMenu();
 			break;
 			default:
 				System.out.println("invalid");
@@ -103,7 +107,15 @@ public class MainClass {
 				String renameName=in.next();
 				abm.rename(renameFile,renameName);
 			break;
-				
+			case 8:
+				 
+				System.out.println("find");
+				System.out.println("name the file u want to edit in");
+				String editFile=in.next();
+				System.out.println("enter the mobile no to edit");
+				String editNo=in.next();
+				abm.edit(editNo,editFile);
+				break;
 		}
 	}
 
